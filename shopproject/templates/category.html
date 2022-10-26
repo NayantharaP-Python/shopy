@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{category.description|truncatewords:155}}
+    {% else %}
+            Welcome to Food Tech Private Ltd store where you can buy different items...
+    {% endif %}
+{% endblock %}
+{% block title %}
+{% if category %}
+         {{ category.name }} - Food Tech Private Ltd
+    {% else %}
+             See our new collections - Food Tech Private Ltd
+        {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if category %}
+      <div>
+          <div class="row my_row_class">
+              <div class="mx-auto">
+                  <p><a href="{% url 'shopapp:allProdCat' %}"><b>Our Product Collections</b></p>
+          </div>
+                </div>
+      </div>
+{% endif %}
+<div class="mx_auto">
+    {% if category %}
+<!--            <img  class="my_image" src="{{category.img.url}}" alt="{{category.name}}" width="100px;" height="100px;>-->
+</div>
+    <br>
+<div>
+             <h1  class="text-center my-title" >{{category.name}}</h1>
+             <p  class="text-justify">{{category.description}}</p>
+</div>
+    {% else %}
+<div>
+ <img class="my_image  my_image_padding" src="{% static 'img/banner.png' %}" alt="our products" width="1250px;">
+</div>
+    <br>
+<div>
+    <h2 class="text-center my_title">Our Products Collections</h2>
+    <p class="text-justify">Health is the biggest wealth for a human being in his/her entire lifetime.
+        One can survive without excess money but can’t survive without good health.
+        Health is something that we can’t buy with money but we can take care of it and we can cure it when needed with the help of the money.
+        If a person is not having good health, he will not be able to enjoy his/her life to the fullest. Money doesn’t make a person rich and happy but good health does.
+        Moreover, a person can’t feel complete and happy without good health.Good health is one of the main elements of happiness that a person needs in his/her life.
+        We can see various people around us that are happy without having a lot of money.</p>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto col-12 " >
+         {% for product in products.object_list %}
+    <div class="my_bottom_margin   col-9  col-sm-12 col-md-4  xol-lg-4" style="margin-bottom:20px">
+        <div class="card text-center" style="...">
+                <a href="{{product.get_url}}"><img class="card-img-top   my-image" src="{{product.img.url}}"width="250px;" height="250px;" alt="image"></a>
+        <div class="card-body">
+            <h4>{{product.name}}</h4>
+                        <p>{{product.price}}</p>
+        </div>
+            </div>
+           </div>
+        {% endfor %}
+    </div>
+</div>
+        <div class="mx-auto">
+            {% if products.paginator.num_pages > 1 %}
+
+           <hr>
+            <div class="text-center">
+                {% for pg in products.paginator.page_range %}
+                    <a href="?page={{pg}}" class="btn btn-light bt-sm {% if products.number == pg  %} active {%  endif  %}">{{pg}}</a>
+                {% endfor %}
+            </div>
+             {% endif %}
+        </div>
+        <br>
+
+        {% endblock %}
